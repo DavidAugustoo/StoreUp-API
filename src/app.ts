@@ -3,7 +3,8 @@ import path from 'path';
 import dotenv from 'dotenv';
 import cors from 'cors';
 import { mongoConnect } from './database/mongodb';
-
+import userRoute from './routes/user.routes';
+import adsRoute from './routes/ads.routes';
 dotenv.config();
 
 mongoConnect();
@@ -17,8 +18,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({extended: true}));
 
 // Carregando Rotas
-// app.use('/api', pharsesRoute);
-// app.use('/api', userRoute);
+app.use('/api', userRoute);
+app.use('/api', adsRoute);
 
 app.use((req: Request, res: Response) => {
     res.status(404);
