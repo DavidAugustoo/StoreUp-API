@@ -18,8 +18,8 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.urlencoded({extended: true}));
 
 // Carregando Rotas
-app.use('/api', userRoute);
-app.use('/api', adsRoute);
+app.use('/', userRoute);
+app.use('/', adsRoute);
 
 app.use((req: Request, res: Response) => {
     res.status(404);
