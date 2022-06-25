@@ -5,6 +5,7 @@ import cors from 'cors';
 import { mongoConnect } from './database/mongodb';
 import userRoute from './routes/user.routes';
 import adsRoute from './routes/ads.routes';
+import stateRoute from './routes/state.routes';
 dotenv.config();
 
 mongoConnect();
@@ -20,6 +21,7 @@ app.use(express.urlencoded({extended: true}));
 // Carregando Rotas
 app.use('/', userRoute);
 app.use('/', adsRoute);
+app.use('/', stateRoute);
 
 app.use((req: Request, res: Response) => {
     res.status(404);

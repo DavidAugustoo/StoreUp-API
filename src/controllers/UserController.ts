@@ -4,23 +4,8 @@ import * as repository from '../repositories/UserRepository';
 import * as ValidationContract from '../validator/validator';
 import * as authService from '../services/authService';
 
-export const ping = async (req: Request, res: Response) => {
-    return res.json({pong: true})
-}
-
-// export const getStates = async (req: Request, res: Response) => {
-//     try {
-//         let response = await repository.getAll();
-
-//         res.json(response);
-
-//     } catch(error) {
-//         res.json({error});
-//     }
-// }
-
 export const signUp = async (req: Request, res: Response) => {
-    let {name, email, password, state} = req.body;
+    let { name, email, password, state } = req.body;
 
     ValidationContract.isRequired(name, 'O campo nome não pode ser vazio.');
     ValidationContract.isRequired(email, 'O campo e-mail não pode ser vazio.');
@@ -49,7 +34,7 @@ export const signUp = async (req: Request, res: Response) => {
 }
 
 export const signIn = async (req: Request, res: Response) => {
-    let {email, password} = req.body;
+    let { email, password } = req.body;
 
     ValidationContract.isRequired(email, 'O campo e-mail não pode ser vazio.');
     ValidationContract.isRequired(password, 'O campo password não pode ser vazio.');
@@ -79,8 +64,6 @@ export const getInfo = () => {
 
 }
 
-export const edit = () => {
-    console.log("oi")
+export const edit = (req: Request, res: Response) => {
+    res.status(400).json({message: "Entrou"});
 }
-
-
