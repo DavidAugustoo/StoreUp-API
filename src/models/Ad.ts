@@ -53,8 +53,8 @@ const schema = new Schema<Ad>({
 
 const modelName: string = "Ad";
 
-const pharsesModel = connection && connection.models[modelName]
+const Ad = connection && connection.models[modelName]
     ? (connection.models[modelName] as Model<Ad>)
     : model<Ad>(modelName, schema);
 
-export default pharsesModel;
+export default Ad;

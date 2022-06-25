@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import * as Auth from '../services/auth';
+import * as Auth from '../services/authService';
 import * as AdsController from '../controllers/AdsController';
 
 const app = Router();

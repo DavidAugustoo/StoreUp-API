@@ -16,8 +16,8 @@ const schema = new Schema<Category>({
 
 const modelName: string = "Category";
 
-const pharsesModel = connection && connection.models[modelName]
+const Category = connection && connection.models[modelName]
     ? (connection.models[modelName] as Model<Category>)
     : model<Category>(modelName, schema);
 
-export default pharsesModel;
+export default Category;

@@ -4,7 +4,7 @@ type User = {
     name: string,
     email: string,
     state: string,
-    passwordHash: string,
+    password: string,
     token: string
 }
 
@@ -18,7 +18,7 @@ const schema = new Schema<User>({
     state: {
         type: String,
     },
-    passwordHash: {
+    password: {
         type: String,
     },
     token: {
@@ -28,8 +28,8 @@ const schema = new Schema<User>({
 
 const modelName: string = "User";
 
-const pharsesModel = connection && connection.models[modelName]
+const User = connection && connection.models[modelName]
     ? (connection.models[modelName] as Model<User>)
     : model<User>(modelName, schema);
 
-export default pharsesModel;
+export default User;

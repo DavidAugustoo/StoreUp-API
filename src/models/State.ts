@@ -13,8 +13,8 @@ const schema = new Schema<State>({
 
 const modelName: string = "State";
 
-const pharsesModel = connection && connection.models[modelName]
+const State = connection && connection.models[modelName]
     ? (connection.models[modelName] as Model<State>)
     : model<State>(modelName, schema);
 
-export default pharsesModel;
+export default State;
