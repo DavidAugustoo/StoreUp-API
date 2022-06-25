@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response } from 'express';
+import { NextFunction, request, Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 
@@ -14,7 +14,7 @@ export const generateToken = async (data: User) => {
 }
 
 export const decodeToken = (token: string) => {
-    return jwt.verify(token, process.env.PORT as string);
+    return jwt.verify(token, process.env.SALT_KEY as string) as User;
 }
 
 export const authenticate = (req: Request, res: Response, next: NextFunction): any => {
