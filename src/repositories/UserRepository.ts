@@ -1,4 +1,5 @@
 import User from '../models/User';
+import mongoose from 'mongoose';
 
 type DataUser = {
     name: string,
@@ -25,8 +26,6 @@ export const createUser = async (data: DataUser) => {
 export const findUser = async (email: string, password: string) => {
     let alredyExists = await User.findOne({email, password});
 
-    console.log(alredyExists);
-
     if(alredyExists) {
         return alredyExists;
     } else {
@@ -43,3 +42,23 @@ export const findByEmail = async (email: string) => {
        throw new Error("Usuário não encontrado.");
     }
 }
+
+export const verifyEmail = async (email: string) => {
+    let alredyExists = await User.findOne({email});
+
+    if(alredyExists) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+export const editUser = async (email: string, data: DataUser) => {
+    await User.findOneAndUpdate({email}, {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        state: data.state,
+    });
+}
+
