@@ -3,6 +3,7 @@ import { Schema, Model, model, connection } from 'mongoose';
 type Category = {
     name: string,
     slug: string,
+    _doc?: any
 }
 
 const schema = new Schema<Category>({
@@ -11,7 +12,7 @@ const schema = new Schema<Category>({
     },
     slug: {
         type: String,
-    }
+    },
 });
 
 const modelName: string = "Category";

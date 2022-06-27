@@ -73,7 +73,7 @@ export const getInfo = async (req: Request, res: Response) => {
     try {
         let user = await UserRepository.findByEmail(data.email);
         let state = await StateRepository.findById(user.state);
-        let ads = await AdsRepository.getListbyUser(user.id);
+        let ads = await AdsRepository.getListbyId(user.id);
 
         res.status(200).json({
             name: user.name,

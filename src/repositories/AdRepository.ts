@@ -1,7 +1,7 @@
 import Ad from '../models/Ad';
 import mongoose from 'mongoose';
 
-export const getListbyUser = async (id: string) => {
+export const getListbyId = async (id: string) => {
     let alredyExists = await Ad.findById(new mongoose.Types.ObjectId(id));
     
     if(alredyExists) {
