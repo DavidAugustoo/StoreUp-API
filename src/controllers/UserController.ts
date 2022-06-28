@@ -1,4 +1,4 @@
-import { json, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import md5 from 'md5';
 import * as UserRepository from '../repositories/UserRepository';
 import * as StateRepository from '../repositories/StateRepository';
