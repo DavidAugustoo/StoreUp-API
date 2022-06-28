@@ -26,7 +26,6 @@ export const authenticate = (req: Request, res: Response, next: NextFunction): a
         });
     } else {
         jwt.verify(token, process.env.SALT_KEY as string, function (error, decoded) {
-            console.log(error);
             if (error) {
                 res.status(401).json({
                     message: 'Acesso Restrito'

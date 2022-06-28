@@ -4,7 +4,7 @@ type Ad = {
     idUser: string,
     state: string,
     category: string,
-    images: object,
+    images: Array<object>,
     dateCreated: Date,
     title: string
     price: number,
@@ -24,10 +24,10 @@ const schema = new Schema<Ad>({
     category: {
         type: String,
     },
-    images: {
-        type: String,
-        required: true,
-    },
+    images: [{
+        url: String,
+        default: Boolean
+    }],
     dateCreated: {
         type: Date,
     },

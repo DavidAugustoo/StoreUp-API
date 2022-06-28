@@ -5,7 +5,7 @@ type AdData = {
     idUser: string,
     state: string,
     category: string,
-    images: string,
+    images: Array<object>,
     dateCreated: Date,
     title: string
     price: number,
