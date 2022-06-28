@@ -23,7 +23,8 @@ type FileData = {
 let images: FileData[] = [];
 
 export const uploadImage = async (receivedImages: File[]) => {
-    if(receivedImages) {
+    if(receivedImages.length > 0) {
+        console.log("passou");
         for(let i in receivedImages) {
             await sharp(receivedImages[i].path)
             .resize(250, 250, {
@@ -40,9 +41,9 @@ export const uploadImage = async (receivedImages: File[]) => {
 
             await unlink(receivedImages[i].path);
         }
+        
+        images[0].default = true;
     }
-
-    images[0].default = true;
 
     return images;
 }
