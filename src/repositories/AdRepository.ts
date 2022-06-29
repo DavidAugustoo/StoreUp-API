@@ -40,3 +40,11 @@ export const createAd = async (data: AdData) => {
         status: data.status
     });
 }
+
+export const getListbyFilters = async (filters: any, sort: any, offset: any, limit: any) => {
+    console.log(filters);
+    return await Ad.find(filters)
+        .sort({dataCreated: (sort=='desc'?-1:1)})
+        .skip(offset)
+        .limit(limit)
+}

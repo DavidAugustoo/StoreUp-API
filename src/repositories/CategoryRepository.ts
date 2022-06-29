@@ -12,3 +12,23 @@ export const createCategory = async () => {
         slug: "smartphones"
     });
 }
+
+export const findById = async (id: any) => {
+    let alredyExists = await Category.findById(new mongoose.Types.ObjectId(id));
+
+    if(alredyExists) {
+        return alredyExists;
+    } else {
+        throw new Error("Categoria não encontrada.");
+    }
+}
+
+export const findByName = async (name: any) => {
+    let alredyExists = await Category.find({slug: name.toLowerCase()});
+
+    if(alredyExists) {
+        return alredyExists;
+    } else {
+       throw new Error("Categoria não encontrada.");
+    }
+}

@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import * as ValidationContract from '../validator/validator';
+import * as Filters from '../validator/filters';
 import * as authService from '../services/authService';
 import * as AdRepository from '../repositories/AdRepository';
 import * as UserRepository from '../repositories/UserRepository';
@@ -71,7 +72,34 @@ export const edit = () => {
     
 }
 
-export const getList = async (id: string) => {
+export const getList = async (req: Request, res: Response) => {
+    let { sort = "asc", offset = 0, limit = 8, query, category, state } = req.query;
+    let ads = [];
+    let total; 
+
+    let filters = await Filters.Ads(query, category, state);
+
+    let adsData = await AdRepository.getListbyFilters(filters, sort, offset, limit);
+
+    for(let i in adsData) {
+        let image;
+
+        if(adsData[i].images.length > 0) {
+            image = adsData[i].images[0];
+        } else {
+            image = `${process.env.BASE}/media/default.jpg`;
+        }
+
+        ads.push({
+            id: adsData[i]._id,
+            title: adsData[i].title,
+            price: adsData[i].price,
+            priceNegotiable: adsData[i].priceNegotiable,
+            image: image
+        });
+    }
+
+    res.status(200).json({ads});
 }
 
 export const getItem = () => {   
