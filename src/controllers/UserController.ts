@@ -6,17 +6,13 @@ import * as AdsRepository from '../repositories/AdRepository';
 import * as ValidationContract from '../validator/validator';
 import * as authService from '../services/authService';
 
-type JwtPayload = {
-    email: string,
-}
-
 export const signUp = async (req: Request, res: Response) => {
     let { name, email, password, state } = req.body;
 
     ValidationContract.isRequired(name, 'O campo nome não pode ser vazio.');
     ValidationContract.isRequired(email, 'O campo e-mail não pode ser vazio.');
     ValidationContract.isEmail(email, 'E-mail inválido.');
-    ValidationContract.hasMinLen(password, 6,'A senha deve conter pelo menos 6 caracteres.');
+    ValidationContract.hasMinLen(password, 6, 'A senha deve conter pelo menos 6 caracteres.');
     ValidationContract.isRequired(state, 'O campo estado não pode ser vazio.');
 
     if (!ValidationContract.isValid()) {
@@ -32,10 +28,10 @@ export const signUp = async (req: Request, res: Response) => {
             password: md5(req.body.password + process.env.SALT_KEY),
             state
         });
-        
-        res.status(201).json({message: "Usuário criado com sucesso."});
-    } catch(e) {
-        res.status(400).json({message: "Usuário já cadastrado."});
+
+        res.status(201).json({ message: "Usuário criado com sucesso." });
+    } catch (e: any) {
+        res.status(400).json({ message: e.message });
     }
 }
 
@@ -61,8 +57,8 @@ export const signIn = async (req: Request, res: Response) => {
 
         res.status(201).json(token);
 
-    } catch {
-        res.status(400).json({message: "Usuário não encontrado."});
+    } catch (e: any) {
+        res.status(400).json({ message: e.message });
     }
 }
 
@@ -81,9 +77,8 @@ export const getInfo = async (req: Request, res: Response) => {
             state: state.name,
             ads
         });
-    } catch(e) {
-        console.log(e);
-        res.status(500).json({message: "Falha ao processar sua requisição."});
+    } catch (e: any) {
+        res.status(400).json({ message: e.message });
     }
 }
 
@@ -96,7 +91,7 @@ export const edit = async (req: Request, res: Response) => {
     ValidationContract.isRequired(name, 'O campo nome não pode ser vazio.');
     ValidationContract.isRequired(email, 'O campo e-mail não pode ser vazio.');
     ValidationContract.isEmail(email, 'E-mail inválido.');
-    ValidationContract.hasMinLen(password, 6,'A senha deve conter pelo menos 6 caracteres.');
+    ValidationContract.hasMinLen(password, 6, 'A senha deve conter pelo menos 6 caracteres.');
     ValidationContract.isRequired(state, 'O campo estado não pode ser vazio.');
 
     if (!ValidationContract.isValid()) {
@@ -105,15 +100,10 @@ export const edit = async (req: Request, res: Response) => {
         return;
     }
 
-    console.log(email, data.email);
-
-    if(email == data.email) {
-        emailAlreadyExists = false;
-    } else {
         emailAlreadyExists = await UserRepository.verifyEmail(email);
 
         if(emailAlreadyExists) {
-            res.status(404).json("Email já cadastrado");
+            res.status(404).json({message: "Email já cadastrado"});
         } else {
             try {
                 await UserRepository.editUser(data.email, {
@@ -122,11 +112,9 @@ export const edit = async (req: Request, res: Response) => {
                     password: md5(req.body.password + process.env.SALT_KEY),
                     state
                 });
-    
                 res.status(200).json({message: "Informações atualizadas com sucesso"});
             } catch(e) {
                 res.status(500).json({message: "Falha ao processar sua requisição"});
             }
         }
-    }
 };

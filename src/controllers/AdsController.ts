@@ -24,7 +24,7 @@ export const add = async (req: Request, res: Response) => {
     let token = req.headers['x-access-token'] as string;
     let data = authService.decodeToken(token);
     let userData = await UserRepository.findByEmail(data.email);
-    let {title, price, priceneg, desc, category} = req.body;
+    let {title, price, priceneg, description, category} = req.body;
     let receivedImages = req.files as File[];
 
 
@@ -38,7 +38,7 @@ export const add = async (req: Request, res: Response) => {
     }
 
     if (price) {
-        price = price.replace(',', '').replace(',','.').replace('R$', '');
+        price = price.replace(',','.').replace('R$', '');
     } else {
         price = 0;
     }
@@ -55,7 +55,7 @@ export const add = async (req: Request, res: Response) => {
             title: title,
             price: price,
             priceNegotiable: (priceneg == true) ? true : false,
-            description: desc,
+            description,
             views: 0,
             status: true
         });
@@ -73,14 +73,15 @@ export const edit = () => {
 }
 
 export const getList = async (req: Request, res: Response) => {
-    let { sort = "asc", offset = 0, limit = 8, query, category, state } = req.query;
+    let {query, category, state } = req.query;
+    let sort = req.query.sort as string;
+    let offset = req.query.offset ? req.query.offset as string : "0";
+    let limit = req.query.limit ? req.query.limit as string : "0";
     let ads = [];
-    let total; 
-
+    
     let filters = await Filters.Ads(query, category, state);
-
-    let adsData = await AdRepository.getListbyFilters(filters, sort, offset, limit);
-
+    let adsData = await AdRepository.getListbyFilters(filters, sort, parseInt(offset), parseInt(limit));
+    
     for(let i in adsData) {
         let image;
 
@@ -99,8 +100,17 @@ export const getList = async (req: Request, res: Response) => {
         });
     }
 
-    res.status(200).json({ads});
+    res.status(200).json({ads, total: ads.length});
 }
 
-export const getItem = () => {   
+export const getItem = async (req: Request, res: Response) => {   
+    let id = req.params;
+
+    try {
+        let ad = await AdRepository.getAdbyId(id);
+
+        res.status(200).json(ad);
+    } catch(e: any)  {
+        res.status(404).json(e.message);
+    }
 }

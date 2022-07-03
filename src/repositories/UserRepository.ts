@@ -9,9 +9,9 @@ type DataUser = {
 }
 
 export const createUser = async (data: DataUser) => {
-    let alredyExists = await User.find({"email": data.email});
+    let alredyExists = await User.findOne({"email": data.email});
 
-    if(alredyExists) {
+    if(!alredyExists) {
         return await User.insertMany({
             name: data.name,
             email: data.email, 

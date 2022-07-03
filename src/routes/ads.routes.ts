@@ -28,7 +28,7 @@ app.post('/ad/add', Auth.authenticate, upload.array('images', 3), AdsController.
 app.post('/ad/:id', Auth.authenticate, AdsController.edit);
 
 app.get('/ad/list', Auth.authenticate, AdsController.getList);
-app.get('/ad/item', Auth.authenticate, AdsController.getItem);
+app.get('/ad/:id', Auth.authenticate, AdsController.getItem);
 
 
 export default app;
